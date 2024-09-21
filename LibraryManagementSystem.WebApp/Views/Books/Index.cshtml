@@ -1,0 +1,33 @@
+﻿
+@model List<Book>
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+<h1>Kitaplar</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Resim</th>
+            <th scope="col">Kitap Adı</th>
+            <th scope="col">Yazar Adı</th>
+            <th scope="col">Yayın Yılı</th>
+            <th scope="col">ISBN No</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr class="align-middle">
+                <td><img class="w-100px" src="~/img/@book.ImageUrl"/></td>
+                <td><a class="my-link" asp-controller="Books" asp-action="Detail" asp-route-id="@book.Id"  asp-route-bookTitle="@UrlHelper.ToUrlFriendly(book.Title)">@book.Title</a></td>
+                <td>@book.Author</td>
+                <td>@book.PublicationYear</td>
+                <td>@book.ISBN</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

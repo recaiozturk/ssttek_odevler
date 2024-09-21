@@ -1,0 +1,70 @@
+﻿@model Book
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+
+
+
+<h1 class="mb-3">@Model.Title</h1>
+
+<div class="card mb-3" >
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="~/img/@Model.ImageUrl" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">Özet:</h5>
+                <p class="card-text">@Model.Summary</p>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Kitap Id :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.Id</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Yazar:</h5>
+                    <p class="card-text ms-2 mb-1">@Model.Author</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Yayın Yılı :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.PublicationYear</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">ISBN No :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.ISBN</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Tür :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.Genre</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Yayıncı :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.Publisher</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Sayfa Sayısı :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.PageCount</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Yazıldığı Dil :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.Language</p>
+                </div>
+
+                <div class="d-flex align-items-center mt-3">
+                    <h5 class="card-title">Mevcut Kopya Sayısı :</h5>
+                    <p class="card-text ms-2 mb-1">@Model.AvailableCopies</p>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+</div>
+
