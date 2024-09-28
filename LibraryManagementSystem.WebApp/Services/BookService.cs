@@ -17,6 +17,18 @@ namespace LibraryManagementSystem.WebApp.Services
             return booksAsModel;
         }
 
+        public BookListModel PrepareListPage(int pageNumber, int pageSize)
+        {
+            var books = bookRepository.GetPaginationList(pageNumber,pageSize);
+            var booksAsModel = mapper.Map<List<BookViewModel>>(books);
+
+            BookListModel model = new();
+            model.Books = booksAsModel;
+            model.TotalPages = (int)Math.Ceiling(bookRepository.GetAll().Count() / (double)pageSize); 
+
+            return model;
+        }
+
         public BookViewModel? GetById(int id)
         {
             var book = bookRepository.GetById(id);
@@ -25,8 +37,6 @@ namespace LibraryManagementSystem.WebApp.Services
             {
                 return null;
             }
-
-            //var test = mapper.Map<BookViewModel>(book);
 
             return mapper.Map<BookViewModel>(book);
         }

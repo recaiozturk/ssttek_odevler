@@ -66,6 +66,14 @@ namespace LibraryManagementSystem.WebApp.Repository
             return _books;
         }
 
+        
+        public List<Book> GetPaginationList(int pageNumber, int pageSize)
+        {
+            int skip = (pageNumber - 1) * pageSize;
+
+            return  _books.Skip(skip).Take(pageSize).ToList();
+        }
+
         public Book? GetById(int id)
         {
             return _books.FirstOrDefault(x => x.Id == id);

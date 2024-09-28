@@ -4,7 +4,9 @@ namespace LibraryManagementSystem.WebApp.Repository
 {
     public interface IBookRepository
     {
+        
         List<Book> GetAll();
+        List<Book> GetPaginationList(int pageNumber, int pageSize);
         Book GetById(int id);
         Book Add(Book book);
         void Update(Book book);
