@@ -1,11 +1,14 @@
 ﻿
+using AutoMapper;
+using LibraryManagementSystem.WebApp.Models;
+
 namespace LibraryManagementSystem.WebApp.Repository
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository(IMapper mapper) : IBookRepository
     {
-        private readonly List<Book> _books;
+        private static readonly List<Book> _books;
 
-        public BookRepository()
+        static BookRepository()
         {
             _books = new List<Book>
             {
@@ -63,9 +66,33 @@ namespace LibraryManagementSystem.WebApp.Repository
             return _books;
         }
 
-        public Book GetById(int id)
+        public Book? GetById(int id)
         {
             return _books.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Book Add(Book book)
+        {
+            _books.Add(book);
+            return book;
+        }
+
+        public void Update(Book book)
+        {
+            var existingBook = _books.FirstOrDefault(p => p.Id == book.Id);
+            if (existingBook != null)
+            {
+                mapper.Map(book, existingBook);
+            }
+        }
+
+        public void Delete(int id)
+        {
+            var existingBook = _books.FirstOrDefault(p => p.Id == id);
+            if (existingBook != null)
+            {
+                _books.Remove(existingBook);
+            }
         }
     }
 }

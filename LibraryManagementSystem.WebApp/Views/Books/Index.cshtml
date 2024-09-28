@@ -1,5 +1,5 @@
 ﻿
-@model List<Book>
+@model List<BookViewModel>
 
 @{
     ViewData["Title"] = ViewBag.Title;
@@ -7,7 +7,9 @@
 
 <h1>Kitaplar</h1>
 
-<table class="table">
+<a asp-controller="Books" asp-action="Create"  class="btn btn-success mt-3">Kitap Ekle</a>
+
+<table class="mt-3 table">
     <thead>
         <tr>
             <th scope="col">Resim</th>
@@ -15,17 +17,23 @@
             <th scope="col">Yazar Adı</th>
             <th scope="col">Yayın Yılı</th>
             <th scope="col">ISBN No</th>
+            <th scope="col">İşlemler</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var book in Model)
         {
             <tr class="align-middle">
-                <td><img class="w-100px" src="~/img/@book.ImageUrl"/></td>
-                <td><a class="my-link" asp-controller="Books" asp-action="Detail" asp-route-id="@book.Id"  asp-route-bookTitle="@UrlHelper.ToUrlFriendly(book.Title)">@book.Title</a></td>
+                <td><img class="w-100px" src="~/img/@book.ImageUrl" /></td>
+                <td><a class="my-link" asp-controller="Books" asp-action="Detail" asp-route-id="@book.Id" asp-route-bookTitle="@UrlHelper.ToUrlFriendly(book.Title)">@book.Title</a></td>
                 <td>@book.Author</td>
                 <td>@book.PublicationYear</td>
                 <td>@book.ISBN</td>
+                <td><div>
+                        <a asp-controller="Books" asp-action="Update" asp-route-id="@book.Id" class="btn btn-outline-warning">Güncelle</a>
+                        <a asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id" class="btn btn-outline-danger">Sil</a>
+                    </div></td>
             </tr>
         }
     </tbody>
