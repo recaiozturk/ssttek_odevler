@@ -75,6 +75,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
+        [Route("/kitap-ara")]
         public async Task<IActionResult> Search()
         {
             return View();
