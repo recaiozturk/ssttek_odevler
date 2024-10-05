@@ -19,5 +19,12 @@ namespace LibraryManagementSystem.WebApp.Books.Repository
 
             return bookWithAuthor;
         }
+
+        public  IQueryable<Book> GetBooksWithAuthor()
+        {
+            var bookWithAuthor =  context.Books.Include(b => b.Author).AsNoTracking();
+
+            return bookWithAuthor;
+        }
     }
 }

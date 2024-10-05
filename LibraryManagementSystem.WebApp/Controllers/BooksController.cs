@@ -3,6 +3,7 @@ using AutoMapper;
 using LibraryManagementSystem.WebApp.Authors.Services;
 using LibraryManagementSystem.WebApp.Books.Models;
 using LibraryManagementSystem.WebApp.Books.Services;
+using LibraryManagementSystem.WebApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 namespace LibraryManagementSystem.WebApp.Controllers
 {
@@ -69,15 +70,22 @@ namespace LibraryManagementSystem.WebApp.Controllers
                 return View(viewModel);
             }
                 
-            bookService.UpdateAsync(viewModel);
+            await bookService.UpdateAsync(viewModel);
 
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
-
-        public async Task<IActionResult> Search(string searchValue)
+        public async Task<IActionResult> Search()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SearchBooks(string searchValue)
+        {
+            var searchedBooksAsJson = await bookService.GetSearchedBooksAsync(searchValue);
+
+            return Json(searchedBooksAsJson);
         }
 
         public async Task<IActionResult> Delete(int id)

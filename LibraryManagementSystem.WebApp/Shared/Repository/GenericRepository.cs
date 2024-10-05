@@ -39,7 +39,7 @@ namespace LibraryManagementSystem.WebApp.Shared.Repository
             _dbSet.Remove(await GetByIdAsync(id));
         }
 
-        public void Update(T entity)
+        public  void Update(T entity)
         {
             _dbSet.Update(entity);
         }

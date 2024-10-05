@@ -7,5 +7,6 @@ namespace LibraryManagementSystem.WebApp.Books.Repository
     {
         Task<List<Book>> GetPaginationListAsync(int pageNumber, int pageSize);
         Task<Book> GetBookWithAuthorAsync(int id);
+        IQueryable<Book> GetBooksWithAuthor();
     }
 }

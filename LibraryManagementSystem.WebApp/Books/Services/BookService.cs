@@ -3,14 +3,70 @@ using LibraryManagementSystem.WebApp.Authors.Repository;
 using LibraryManagementSystem.WebApp.Books.Entities;
 using LibraryManagementSystem.WebApp.Books.Models;
 using LibraryManagementSystem.WebApp.Books.Repository;
+using LibraryManagementSystem.WebApp.Shared.Models;
 using LibraryManagementSystem.WebApp.Shared.Repository;
 using LibraryManagementSystem.WebApp.Util;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.WebApp.Books.Services
 {
     public class BookService(IBookRepository bookRepository,IAuthorRepository autherRepository,IUnitOfWork unitOfWork, IMapper mapper) : IBookService
     {
+        public async Task<CustomJsonModel> GetSearchedBooksAsync(string searchValue)
+        {
+
+            // Eğer searchValue boş veya null ise sonuç döndür
+            if (string.IsNullOrEmpty(searchValue))
+            {
+                return new CustomJsonModel
+                {
+                    IsValid = false,
+                    ErrorMessage = "Arama değeri boş olamaz"
+                };
+            }
+
+            // searchValue doluysa sorguyu gerçekleştir
+            IQueryable<Book> query = bookRepository.GetBooksWithAuthor();
+
+            bool isNumeric = int.TryParse(searchValue, out int publicationYear);
+
+            query = query.Where(b =>
+                b.Title.Contains(searchValue) ||
+                b.Author.Name.Contains(searchValue) ||
+                b.Genre.Contains(searchValue) ||
+                b.Publisher.Contains(searchValue) ||
+                b.ISBN.Contains(searchValue) ||
+                b.Publisher.Contains(searchValue) ||
+                (isNumeric && b.PublicationYear == publicationYear)
+            );
+
+            var result = await query.ToListAsync();
+
+            if (result.Count > 0)
+                return new CustomJsonModel { Data = result, IsValid = true };
+            else
+                return new CustomJsonModel { IsValid = false, ErrorMessage = "Aradığınız kriterlerde sonuç bulunamadı" };
+            //IQueryable<Book> query = bookRepository.GetBooksWithAuthor();
+
+            //if (!string.IsNullOrEmpty(searchValue) && searchValue!=null)
+            //{
+            //    query = query.Where(b =>
+            //        b.Title.Contains(searchValue) ||
+            //        b.Author.Name.Contains(searchValue) ||
+            //        b.Genre.Contains(searchValue) ||
+            //        b.Publisher.Contains(searchValue)
+            //    );
+            //}
+
+            //var result =  await query.ToListAsync();
+
+            //if (result.Count > 0)
+            //    return new CustomJsonModel { Data = result, IsValid = true };
+            //else
+            //    return new CustomJsonModel { IsValid = false, ErrorMessage = "Aradığınız kriterlerde sonuc bulunamadi" };
+
+        }
         public async Task<List<BookViewModel>> GetAllAsync()
         {
             var books = await bookRepository.GetAll().ToListAsync();
@@ -66,17 +122,20 @@ namespace LibraryManagementSystem.WebApp.Books.Services
 
         public async Task UpdateAsync(UpdateBookViewModel bookUpdateModel)
         {
-            if (bookUpdateModel.ImageFile != null && bookUpdateModel.ImageFile.Length > 0)
-            {
-                ImageHelper.DeleteOldImage(bookUpdateModel.ImageUrl);
-                bookUpdateModel.ImageUrl = ImageHelper.AddImageAsync(bookUpdateModel.ImageFile).Result;
-            }
 
-            var bookToUpdate = mapper.Map<Book>(bookUpdateModel);
-            bookToUpdate.Author = await autherRepository.GetByIdAsync(bookToUpdate.AuthorId);
+                if (bookUpdateModel.ImageFile != null && bookUpdateModel.ImageFile.Length > 0)
+                {
+                    ImageHelper.DeleteOldImage(bookUpdateModel.ImageUrl);
+                    bookUpdateModel.ImageUrl = ImageHelper.AddImageAsync(bookUpdateModel.ImageFile).Result;
+                }
 
-            bookRepository.Update(bookToUpdate);
-            await unitOfWork.CommitAsync();
+                var bookToUpdate = mapper.Map<Book>(bookUpdateModel);
+                bookToUpdate.Author = await autherRepository.GetByIdAsync(bookToUpdate.AuthorId);
+
+                bookRepository.Update(bookToUpdate);
+                await unitOfWork.CommitAsync();
+
+
         }
 
         public async Task DeleteAsync(int id)
