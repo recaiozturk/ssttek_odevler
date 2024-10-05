@@ -6,7 +6,6 @@ using LibraryManagementSystem.WebApp.Books.Repository;
 using LibraryManagementSystem.WebApp.Shared.Models;
 using LibraryManagementSystem.WebApp.Shared.Repository;
 using LibraryManagementSystem.WebApp.Util;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.WebApp.Books.Services
@@ -16,7 +15,6 @@ namespace LibraryManagementSystem.WebApp.Books.Services
         public async Task<CustomJsonModel> GetSearchedBooksAsync(string searchValue)
         {
 
-            // Eğer searchValue boş veya null ise sonuç döndür
             if (string.IsNullOrEmpty(searchValue))
             {
                 return new CustomJsonModel
@@ -26,7 +24,6 @@ namespace LibraryManagementSystem.WebApp.Books.Services
                 };
             }
 
-            // searchValue doluysa sorguyu gerçekleştir
             IQueryable<Book> query = bookRepository.GetBooksWithAuthor();
 
             bool isNumeric = int.TryParse(searchValue, out int publicationYear);
@@ -47,24 +44,6 @@ namespace LibraryManagementSystem.WebApp.Books.Services
                 return new CustomJsonModel { Data = result, IsValid = true };
             else
                 return new CustomJsonModel { IsValid = false, ErrorMessage = "Aradığınız kriterlerde sonuç bulunamadı" };
-            //IQueryable<Book> query = bookRepository.GetBooksWithAuthor();
-
-            //if (!string.IsNullOrEmpty(searchValue) && searchValue!=null)
-            //{
-            //    query = query.Where(b =>
-            //        b.Title.Contains(searchValue) ||
-            //        b.Author.Name.Contains(searchValue) ||
-            //        b.Genre.Contains(searchValue) ||
-            //        b.Publisher.Contains(searchValue)
-            //    );
-            //}
-
-            //var result =  await query.ToListAsync();
-
-            //if (result.Count > 0)
-            //    return new CustomJsonModel { Data = result, IsValid = true };
-            //else
-            //    return new CustomJsonModel { IsValid = false, ErrorMessage = "Aradığınız kriterlerde sonuc bulunamadi" };
 
         }
         public async Task<List<BookViewModel>> GetAllAsync()

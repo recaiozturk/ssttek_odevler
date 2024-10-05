@@ -1,5 +1,4 @@
 ﻿using LibraryManagementSystem.WebApp.Authors.Entities;
-using LibraryManagementSystem.WebApp.Books.Entities;
 using LibraryManagementSystem.WebApp.Shared.Repository;
 using Microsoft.EntityFrameworkCore;
 

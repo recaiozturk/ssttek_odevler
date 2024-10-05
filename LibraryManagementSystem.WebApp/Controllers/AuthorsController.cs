@@ -17,7 +17,6 @@ namespace LibraryManagementSystem.WebApp.Controllers
         [Route("/yazar/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Detail(int id, string authorTitle)
         {
-            //var author = await authorService.GetByIdAsync(id);
             var author = await authorService.GetAuthorWithBooksAsync(id);
             return View(author);
         }

@@ -24,8 +24,7 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddControllersWithViews().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    /*options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;*/ //Ýliskili entitylerde loopu onler
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;//Ýliskili entitylerde loopu onler
 });
 
 builder.Services.AddFluentValidationAutoValidation();
