@@ -1,36 +1,34 @@
 ﻿
 using AutoMapper;
+using LibraryManagementSystem.WebApp.Authors.Services;
 using LibraryManagementSystem.WebApp.Books.Models;
 using LibraryManagementSystem.WebApp.Books.Services;
 using Microsoft.AspNetCore.Mvc;
 namespace LibraryManagementSystem.WebApp.Controllers
 {
-    public class BooksController(IBookService bookService,IMapper mapper) : Controller
+    public class BooksController(IBookService bookService,IAuthorService authorService,IMapper mapper) : Controller
     {
 
         [Route("kitaplar/sayfa/{pageNumber:int}")]
-        public IActionResult Index(int pageNumber=1, int pageSize=3)
+        public async Task<IActionResult> Index(int pageNumber=1, int pageSize=3)
         {
-            var model = bookService.PrepareListPage(pageNumber, pageSize);
-            ViewBag.Title = "Kitaplar";
-            ViewData["Offer"] = "Tüm Kitaplarda %20 İndirim Fırsatı";
-
+            var model = await bookService.PrepareListPageAsync(pageNumber, pageSize);
             return View(model);
         }
 
         [Route("/kitap/{id:int}/{bookTitle}")]
-        public IActionResult Detail(int id,string bookTitle)
+        public async Task<IActionResult> Detail(int id,string bookTitle)
         {
-            var book = bookService.GetById(id);
-            ViewBag.Title = book.Title;
-            ViewData["Offer"] = "2 Kitap Alana 1 Kitap Bedava";
-
+            var book = await bookService.GetBookWithAuthorAsync(id);
             return View(book);
         }
 
         [Route("/kitap-ekle")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var authorsSelectList=await authorService.GetAuthorsSelectListAsync();
+            ViewBag.Authors = authorsSelectList;
+
             return View();
         }
 
@@ -40,36 +38,51 @@ namespace LibraryManagementSystem.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                var authorsSelectList = await authorService.GetAuthorsSelectListAsync();
+                ViewBag.Authors = authorsSelectList;
+                return View(bookCreateModel);
             }
+                
 
-            bookService.Add(bookCreateModel);
+            await bookService.AddAsync(bookCreateModel);
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
         [Route("/kitap-guncelle/{id:int}/{bookTitle}")]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            var book = bookService.GetById(id);
+            var book = await bookService.GetByIdAsync(id);
+            var authorsSelectList = await authorService.GetAuthorsSelectListAsync();
+            ViewBag.Authors = authorsSelectList;
 
             return View(mapper.Map<UpdateBookViewModel>(book));
         }
 
         [HttpPost]
         [Route("/kitap-guncelle/{id:int}/{bookTitle}")]        
-        public IActionResult Update(UpdateBookViewModel viewModel)
+        public async Task<IActionResult> Update(UpdateBookViewModel viewModel)
         {
             if (!ModelState.IsValid)
+            {
+                var authorsSelectList = await authorService.GetAuthorsSelectListAsync();
+                ViewBag.Authors = authorsSelectList;
                 return View(viewModel);
-
-            bookService.Update(viewModel);
+            }
+                
+            bookService.UpdateAsync(viewModel);
 
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
-        public IActionResult Delete(int id)
+
+        public async Task<IActionResult> Search(string searchValue)
         {
-            bookService.Delete(id);
+            return View();
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await bookService.DeleteAsync(id);
 
             return RedirectToAction("Index", new { pageNumber = 1 });
         }

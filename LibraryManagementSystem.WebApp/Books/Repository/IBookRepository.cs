@@ -1,15 +1,11 @@
 ﻿using LibraryManagementSystem.WebApp.Books.Entities;
+using LibraryManagementSystem.WebApp.Shared.Repository;
 
 namespace LibraryManagementSystem.WebApp.Books.Repository
 {
-    public interface IBookRepository
+    public interface IBookRepository : IGenericRepository<Book>
     {
-
-        List<Book> GetAll();
-        List<Book> GetPaginationList(int pageNumber, int pageSize);
-        Book GetById(int id);
-        Book Add(Book book);
-        void Update(Book book);
-        public void Delete(int id);
+        Task<List<Book>> GetPaginationListAsync(int pageNumber, int pageSize);
+        Task<Book> GetBookWithAuthorAsync(int id);
     }
 }

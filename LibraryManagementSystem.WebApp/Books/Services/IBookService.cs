@@ -4,11 +4,12 @@ namespace LibraryManagementSystem.WebApp.Books.Services
 {
     public interface IBookService
     {
-        List<BookViewModel> GetAll();
-        BookListModel PrepareListPage(int pageNumber, int pageSize);
-        BookViewModel? GetById(int id);
-        BookViewModel Add(CreateBookViewModel bookModel);
-        void Update(UpdateBookViewModel bookModel);
-        void Delete(int id);
+        Task<BookViewModel?> GetBookWithAuthorAsync(int id);
+        Task<List<BookViewModel>> GetAllAsync();
+        Task<BookListModel> PrepareListPageAsync(int pageNumber, int pageSize);
+        Task<BookViewModel?> GetByIdAsync(int id);
+        Task<BookViewModel> AddAsync(CreateBookViewModel bookCreateModel);
+        Task UpdateAsync(UpdateBookViewModel bookUpdateModel);
+        Task DeleteAsync(int id);
     }
 }

@@ -25,7 +25,7 @@
 
                 <div class="d-flex align-items-center mt-3">
                     <h5 class="card-title">Yazar:</h5>
-                    <p class="card-text ms-2 mb-1">@Model.Author</p>
+                    <a asp-controller="Authors" asp-action="Detail" asp-route-id="@Model.Author.Id" asp-route-authorTitle="@UrlHelper.ToUrlFriendly(Model.Author.Name)" class="card-text ms-2 mb-1">@Model.Author.Name</a>
                 </div>
 
                 <div class="d-flex align-items-center mt-3">

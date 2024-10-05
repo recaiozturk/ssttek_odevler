@@ -1,9 +1,12 @@
-﻿namespace LibraryManagementSystem.WebApp.Books.Models
+﻿using LibraryManagementSystem.WebApp.Authors.Entities;
+
+namespace LibraryManagementSystem.WebApp.Books.Models
 {
     public record BookViewModel(
             int Id,
+            int AuthorId,
+            Author Author,
             string Title,
-            string Author,
             int PublicationYear,
             string ISBN,
             string Genre,

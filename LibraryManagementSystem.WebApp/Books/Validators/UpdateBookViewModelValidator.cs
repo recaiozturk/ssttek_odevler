@@ -17,10 +17,10 @@ namespace LibraryManagementSystem.WebApp.Books.Validators
             .MinimumLength(10).WithMessage("Kitap özeti en az 10 karakter olmalıdır.")
             .MaximumLength(1000).WithMessage("Kitap ismi en fazla 1000 karakter olabilir.");
 
-            RuleFor(x => x.Author).NotNull().WithMessage("Yazar ismi gereklidir");
-            RuleFor(x => x.Author)
-            .MinimumLength(5).WithMessage("Yazar ismi en az 5 karakter olmalıdır.")
-            .MaximumLength(50).WithMessage("Yazar ismi en fazla 50 karakter olabilir.");
+            RuleFor(x => x.AuthorId)
+            .NotNull().WithMessage("Yazar Seçiniz")
+            .NotEmpty().WithMessage("Yazar Seçiniz")
+            .GreaterThan(0).WithMessage("Geçerli bir yazar seçiniz");
 
 
             RuleFor(x => x.PublicationYear).NotNull().WithMessage("Yayın yılı gereklidir");
