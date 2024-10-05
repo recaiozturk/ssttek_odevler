@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.WebApp.Models;
-using LibraryManagementSystem.WebApp.Models.ViewModels;
+using LibraryManagementSystem.WebApp.Books.Entities;
+using LibraryManagementSystem.WebApp.Books.Models;
 
-namespace LibraryManagementSystem.WebApp.Mapping
+namespace LibraryManagementSystem.WebApp.Books.Mapping
 {
-    public class BookMappingProfiler: Profile
+    public class BookMappingProfiler : Profile
     {
         public BookMappingProfiler()
         {

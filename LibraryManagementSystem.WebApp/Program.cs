@@ -1,9 +1,9 @@
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using LibraryManagementSystem.WebApp.Repository;
-using LibraryManagementSystem.WebApp.Services;
-using LibraryManagementSystem.WebApp.Validations;
 using System.Reflection;
+using LibraryManagementSystem.WebApp.Books.Repository;
+using LibraryManagementSystem.WebApp.Books.Services;
+using LibraryManagementSystem.WebApp.Books.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 

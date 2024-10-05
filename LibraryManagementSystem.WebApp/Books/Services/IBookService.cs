@@ -1,6 +1,6 @@
-﻿using LibraryManagementSystem.WebApp.Models.ViewModels;
+﻿using LibraryManagementSystem.WebApp.Books.Models;
 
-namespace LibraryManagementSystem.WebApp.Services
+namespace LibraryManagementSystem.WebApp.Books.Services
 {
     public interface IBookService
     {

@@ -1,30 +1,30 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.WebApp.Models;
-using LibraryManagementSystem.WebApp.Models.ViewModels;
-using LibraryManagementSystem.WebApp.Repository;
+using LibraryManagementSystem.WebApp.Books.Entities;
+using LibraryManagementSystem.WebApp.Books.Models;
+using LibraryManagementSystem.WebApp.Books.Repository;
 using LibraryManagementSystem.WebApp.Util;
 
-namespace LibraryManagementSystem.WebApp.Services
+namespace LibraryManagementSystem.WebApp.Books.Services
 {
-    public class BookService(IBookRepository bookRepository,IMapper mapper) : IBookService
+    public class BookService(IBookRepository bookRepository, IMapper mapper) : IBookService
     {
         public List<BookViewModel> GetAll()
         {
             var books = bookRepository.GetAll();
 
-            var booksAsModel=mapper.Map<List<BookViewModel>>(books);
+            var booksAsModel = mapper.Map<List<BookViewModel>>(books);
 
             return booksAsModel;
         }
 
         public BookListModel PrepareListPage(int pageNumber, int pageSize)
         {
-            var books = bookRepository.GetPaginationList(pageNumber,pageSize);
+            var books = bookRepository.GetPaginationList(pageNumber, pageSize);
             var booksAsModel = mapper.Map<List<BookViewModel>>(books);
 
             BookListModel model = new();
             model.Books = booksAsModel;
-            model.TotalPages = (int)Math.Ceiling(bookRepository.GetAll().Count() / (double)pageSize); 
+            model.TotalPages = (int)Math.Ceiling(bookRepository.GetAll().Count() / (double)pageSize);
 
             return model;
         }
@@ -45,10 +45,10 @@ namespace LibraryManagementSystem.WebApp.Services
         {
             if (bookCreateModel.ImageFile != null && bookCreateModel.ImageFile.Length > 0)
             {
-                bookCreateModel.ImageUrl =  ImageHelper.AddImageAsync(bookCreateModel.ImageFile).Result;
+                bookCreateModel.ImageUrl = ImageHelper.AddImageAsync(bookCreateModel.ImageFile).Result;
             }
 
-            var newBook =mapper.Map<Book>(bookCreateModel);
+            var newBook = mapper.Map<Book>(bookCreateModel);
             newBook.Id = GetAll().Count + 1;
 
             bookRepository.Add(newBook);
@@ -64,7 +64,7 @@ namespace LibraryManagementSystem.WebApp.Services
                 bookUpdateModel.ImageUrl = ImageHelper.AddImageAsync(bookUpdateModel.ImageFile).Result;
             }
 
-            var bookToUpdate=mapper.Map<Book>(bookUpdateModel);
+            var bookToUpdate = mapper.Map<Book>(bookUpdateModel);
 
             bookRepository.Update(bookToUpdate);
         }

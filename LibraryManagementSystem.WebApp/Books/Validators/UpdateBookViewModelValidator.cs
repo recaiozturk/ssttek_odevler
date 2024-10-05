@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using LibraryManagementSystem.WebApp.Models.ViewModels;
+using LibraryManagementSystem.WebApp.Books.Models;
 
-namespace LibraryManagementSystem.WebApp.Validations
+namespace LibraryManagementSystem.WebApp.Books.Validators
 {
-    public class CreateBookViewModelValidator: AbstractValidator<CreateBookViewModel>
+    public class UpdateBookViewModelValidator : AbstractValidator<UpdateBookViewModel>
     {
-        public CreateBookViewModelValidator()
+        public UpdateBookViewModelValidator()
         {
             RuleFor(x => x.Title).NotNull().WithMessage("Kitap ismi gereklidir");
             RuleFor(x => x.Title)
@@ -51,10 +51,6 @@ namespace LibraryManagementSystem.WebApp.Validations
             RuleFor(x => x.AvailableCopies).NotNull().WithMessage("Mevcut kopya sayısı gereklidir");
             RuleFor(x => x.AvailableCopies)
             .GreaterThan(0).WithMessage("Mevcut kopya sayısı 0 dan büyük olmadlıdır.");
-
-            RuleFor(x => x.ImageFile)
-            .NotNull().WithMessage("Bir resim dosyası yüklemeniz gerekmektedir.")
-            .Must(file => file.Length > 0).WithMessage("Bir resim dosyası yüklemeniz gerekmektedir.");
         }
     }
 }

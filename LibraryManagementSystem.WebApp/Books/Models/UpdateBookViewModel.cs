@@ -1,6 +1,6 @@
-﻿namespace LibraryManagementSystem.WebApp.Models
+﻿namespace LibraryManagementSystem.WebApp.Books.Models
 {
-    public class Book
+    public record UpdateBookViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; } = default!;
@@ -13,6 +13,7 @@
         public string Language { get; set; } = default!;
         public string Summary { get; set; } = default!;
         public int AvailableCopies { get; set; }
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = default!;
+        public IFormFile? ImageFile { get; set; }
     }
 }

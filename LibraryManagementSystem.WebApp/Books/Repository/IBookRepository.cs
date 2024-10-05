@@ -1,10 +1,10 @@
-﻿using LibraryManagementSystem.WebApp.Models;
+﻿using LibraryManagementSystem.WebApp.Books.Entities;
 
-namespace LibraryManagementSystem.WebApp.Repository
+namespace LibraryManagementSystem.WebApp.Books.Repository
 {
     public interface IBookRepository
     {
-        
+
         List<Book> GetAll();
         List<Book> GetPaginationList(int pageNumber, int pageSize);
         Book GetById(int id);

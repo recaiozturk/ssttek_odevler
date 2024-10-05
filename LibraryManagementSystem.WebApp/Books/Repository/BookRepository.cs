@@ -1,8 +1,8 @@
 ﻿
 using AutoMapper;
-using LibraryManagementSystem.WebApp.Models;
+using LibraryManagementSystem.WebApp.Books.Entities;
 
-namespace LibraryManagementSystem.WebApp.Repository
+namespace LibraryManagementSystem.WebApp.Books.Repository
 {
     public class BookRepository(IMapper mapper) : IBookRepository
     {
@@ -66,12 +66,12 @@ namespace LibraryManagementSystem.WebApp.Repository
             return _books;
         }
 
-        
+
         public List<Book> GetPaginationList(int pageNumber, int pageSize)
         {
             int skip = (pageNumber - 1) * pageSize;
 
-            return  _books.Skip(skip).Take(pageSize).ToList();
+            return _books.Skip(skip).Take(pageSize).ToList();
         }
 
         public Book? GetById(int id)

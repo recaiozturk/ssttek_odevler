@@ -1,5 +1,4 @@
-﻿
-namespace LibraryManagementSystem.WebApp.Models.ViewModels
+﻿namespace LibraryManagementSystem.WebApp.Books.Models
 {
     public record CreateBookViewModel
     {

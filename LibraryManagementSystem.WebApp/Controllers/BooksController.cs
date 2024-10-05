@@ -1,7 +1,7 @@
 ﻿
 using AutoMapper;
-using LibraryManagementSystem.WebApp.Models.ViewModels;
-using LibraryManagementSystem.WebApp.Services;
+using LibraryManagementSystem.WebApp.Books.Models;
+using LibraryManagementSystem.WebApp.Books.Services;
 using Microsoft.AspNetCore.Mvc;
 namespace LibraryManagementSystem.WebApp.Controllers
 {
