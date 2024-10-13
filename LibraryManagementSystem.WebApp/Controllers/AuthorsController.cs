@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.WebApp.Authors.Models;
-using LibraryManagementSystem.WebApp.Authors.Services;
+using LibraryManagementSystem.Service.Authors;
+using LibraryManagementSystem.Service.Authors.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.WebApp.Controllers

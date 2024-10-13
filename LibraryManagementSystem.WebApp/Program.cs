@@ -1,13 +1,13 @@
-using FluentValidation.AspNetCore;
 using FluentValidation;
-using System.Reflection;
-using LibraryManagementSystem.WebApp.Books.Repository;
-using LibraryManagementSystem.WebApp.Books.Services;
-using LibraryManagementSystem.WebApp.Books.Validators;
-using LibraryManagementSystem.WebApp.Shared.Repository;
+using FluentValidation.AspNetCore;
+using LibraryManagementSystem.Repository.Authors;
+using LibraryManagementSystem.Repository.Books;
+using LibraryManagementSystem.Repository.Shared;
+using LibraryManagementSystem.Service.Authors;
+using LibraryManagementSystem.Service.Books;
+using LibraryManagementSystem.Service.Books.Validators;
 using Microsoft.EntityFrameworkCore;
-using LibraryManagementSystem.WebApp.Authors.Repository;
-using LibraryManagementSystem.WebApp.Authors.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +33,6 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBookViewModelValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookViewModelValidator>();
 
-builder.Services.AddScoped<IBookInMemoryRepository, BookInMemoryRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 

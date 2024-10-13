@@ -19,7 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shared\Services\" />
+    <Folder Include="Authors\" />
+    <Folder Include="Books\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryManagementSystem.Service\LibraryManagementSystem.Service.csproj" />
   </ItemGroup>
 
 </Project>
