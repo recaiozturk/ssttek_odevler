@@ -4,7 +4,6 @@ using LibraryManagementSystem.Repository.Shared;
 using LibraryManagementSystem.Service.Authors.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Mvc;
 
 namespace LibraryManagementSystem.Service.Authors
 {

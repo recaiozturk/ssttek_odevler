@@ -1,47 +1,19 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using LibraryManagementSystem.Repository.Authors;
-using LibraryManagementSystem.Repository.Books;
-using LibraryManagementSystem.Repository.Shared;
-using LibraryManagementSystem.Service.Authors;
-using LibraryManagementSystem.Service.Books;
-using LibraryManagementSystem.Service.Books.Validators;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using LibraryManagementSystem.Repository.Extensions;
+using LibraryManagementSystem.Service.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<AppDbContext>(x =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("SqlSever");
-    x.UseSqlServer(connectionString);
-});
 
 builder.Services.AddControllersWithViews(options =>
 {
     options.ModelMetadataDetailsProviders.Clear(); // DataAnnotations validasyonlarini devre disi birakir
-});
+}).AddJsonOptions(options =>{options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;}); // Ýliskili entitylerde loopu onler
 
-builder.Services.AddControllersWithViews().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;//Ýliskili entitylerde loopu onler
-});
+//default hata mesajlari
+builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
-
-builder.Services.AddValidatorsFromAssemblyContaining<CreateBookViewModelValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateBookViewModelValidator>();
-
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookService, BookService>();
-
-builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-builder.Services.AddScoped<IAuthorService, AuthorService>();
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddEfCoreExt(builder.Configuration).AddMappingExt(builder.Configuration).AddFluentExt(builder.Configuration);
+builder.Services.AddRepoExt(builder.Configuration).AddServicesExt(builder.Configuration);
 
 var app = builder.Build();
 
