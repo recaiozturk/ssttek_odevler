@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Service.Authors;
 using LibraryManagementSystem.Service.Books;
+using LibraryManagementSystem.Service.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ namespace LibraryManagementSystem.Service.Extensions
 
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IAuthService,AuthService>();
 
             return services;
         }
