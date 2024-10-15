@@ -6,20 +6,27 @@
 
 @model UpdateAuthorViewModel
 
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <h1>Yazar Güncelle</h1>
-        <form asp-controller="Authors" asp-action="Update" method="post">
-            <input type="hidden" asp-for="Id">
-            <div class="mb-3">
-                <label class="form-label">Yazar İsmi</label>
-                <input asp-for="Name" class="form-control">
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Kaydet</button>
-        </form>
+<partial name="_Error" />
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1>Yazar Güncelle</h1>
+            <form asp-controller="Authors" asp-action="Update" method="post">
+                <input type="hidden" asp-for="Id">
+                <div class="mb-3">
+                    <label class="form-label">Yazar İsmi</label>
+                    <input asp-for="Name" class="form-control">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </form>
+        </div>
     </div>
-</div>
+}
+
+
 
 @section Scripts
 {

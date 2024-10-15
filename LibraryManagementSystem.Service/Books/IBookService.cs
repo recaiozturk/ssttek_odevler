@@ -1,17 +1,18 @@
 ﻿using LibraryManagementSystem.Service.Books.ViewModels;
+using LibraryManagementSystem.Service.Shared;
 using LibraryManagementSystem.Service.Shared.Models;
 
 namespace LibraryManagementSystem.Service.Books
 {
     public interface IBookService
     {
-        Task<CustomJsonModel> GetSearchedBooksAsync(string searchValue);
-        Task<BookViewModel?> GetBookWithAuthorAsync(int id);
-        Task<List<BookViewModel>> GetAllAsync();
-        Task<BookListModel> PrepareListPageAsync(int pageNumber, int pageSize);
-        Task<BookViewModel?> GetByIdAsync(int id);
-        Task<BookViewModel> AddAsync(CreateBookViewModel bookCreateModel);
-        Task UpdateAsync(UpdateBookViewModel bookUpdateModel);
-        Task DeleteAsync(int id);
+        Task<ServiceResult<CustomJsonModel>> GetSearchedBooksAsync(string searchValue);
+        Task<ServiceResult<BookViewModel?>> GetBookWithAuthorAsync(int id);
+        Task<ServiceResult<List<BookViewModel>>> GetAllAsync();
+        Task<ServiceResult<BookListModel>> PrepareListPageAsync(int pageNumber, int pageSize);
+        Task<ServiceResult<BookViewModel?>> GetByIdAsync(int id);
+        Task<ServiceResult<BookViewModel>> AddAsync(CreateBookViewModel bookCreateModel);
+        Task<ServiceResult> UpdateAsync(UpdateBookViewModel bookUpdateModel);
+        Task<ServiceResult> DeleteAsync(int id);
     }
 }

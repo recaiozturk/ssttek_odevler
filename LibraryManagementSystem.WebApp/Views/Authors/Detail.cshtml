@@ -4,25 +4,31 @@
     ViewData["Title"] = ViewBag.Title;
 }
 
+<partial name="_Error" />
+
+@if (Model != null)
+{
+    <h1 class="mb-3">@Model.Name</h1>
+
+    <h5 class="mb-3">Yazarın Kitapları</h5>
+    <div class="row">
 
 
-<h1 class="mb-3">@Model.Name</h1>
 
-
-<h5 class="mb-3">Yazarın Kitapları</h5>
-<div class="row">
-    @if (Model.Books.Count > 0)
-    {
-        foreach (var book in Model.Books)
+        @if (Model.Books.Count > 0)
         {
-            <a class="my-link" asp-controller="Books" asp-action="Detail" asp-route-id="@book.Id" asp-route-bookTitle="@UrlHelper.ToUrlFriendly(book.Title)">@book.Title</a>
+            foreach (var book in Model.Books)
+            {
+                <a class="my-link" asp-controller="Books" asp-action="Detail" asp-route-id="@book.Id" asp-route-bookTitle="@UrlHelper.ToUrlFriendly(book.Title)">@book.Title</a>
+            }
         }
-    }
-    else
-    {
-        <h6>Yazarın kitabı bulunmamaktadır!</h6>
-    }
+        else
+        {
+            <h6>Yazarın kitabı bulunmamaktadır!</h6>
+        }
 
 
-</div>
+    </div>
+}
+
 

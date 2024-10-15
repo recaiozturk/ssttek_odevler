@@ -12,22 +12,29 @@ namespace LibraryManagementSystem.WebApp.Controllers
         [Route("kitaplar/sayfa/{pageNumber:int}")]
         public async Task<IActionResult> Index(int pageNumber=1, int pageSize=3)
         {
-            var model = await bookService.PrepareListPageAsync(pageNumber, pageSize);
-            return View(model);
+            var result  = await bookService.PrepareListPageAsync(pageNumber, pageSize);
+            return View(result.Data);
         }
 
         [Route("/kitap/{id:int}/{bookTitle}")]
         public async Task<IActionResult> Detail(int id,string bookTitle)
         {
-            var book = await bookService.GetBookWithAuthorAsync(id);
-            return View(book);
+            var result = await bookService.GetBookWithAuthorAsync(id);
+
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return View();
+            }
+
+            return View(result.Data);
         }
 
         [Route("/kitap-ekle")]
         public async Task<IActionResult> Create()
         {
             var authorsSelectList=await authorService.GetAuthorsSelectListAsync();
-            ViewBag.Authors = authorsSelectList;
+            ViewBag.Authors = authorsSelectList.Data;
 
             return View();
         }
@@ -42,35 +49,51 @@ namespace LibraryManagementSystem.WebApp.Controllers
                 ViewBag.Authors = authorsSelectList;
                 return View(bookCreateModel);
             }
-                
+            
+            var result=await bookService.AddAsync(bookCreateModel);
 
-            await bookService.AddAsync(bookCreateModel);
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return View();
+            }
+
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
         [Route("/kitap-guncelle/{id:int}/{bookTitle}")]
         public async Task<IActionResult> Update(int id)
         {
-            var book = await bookService.GetByIdAsync(id);
-            var authorsSelectList = await authorService.GetAuthorsSelectListAsync();
-            ViewBag.Authors = authorsSelectList;
+            var authorsSelectListResult = await authorService.GetAuthorsSelectListAsync();
+            ViewBag.Authors = authorsSelectListResult.Data;
 
-            return View(mapper.Map<UpdateBookViewModel>(book));
+            var bookResult = await bookService.GetByIdAsync(id);
+
+            if (bookResult.AnyError)
+            {
+                TempData["Error"] = bookResult.Errors;
+                return View();
+            }
+            return View(mapper.Map<UpdateBookViewModel>(bookResult.Data));
         }
 
         [HttpPost]
         [Route("/kitap-guncelle/{id:int}/{bookTitle}")]        
         public async Task<IActionResult> Update(UpdateBookViewModel viewModel)
         {
+            var authorsSelectListResult = await authorService.GetAuthorsSelectListAsync();
+            ViewBag.Authors = authorsSelectListResult.Data;
+
             if (!ModelState.IsValid)
+                return View(viewModel);
+
+            var result =await bookService.UpdateAsync(viewModel);
+
+            if (result.AnyError)
             {
-                var authorsSelectList = await authorService.GetAuthorsSelectListAsync();
-                ViewBag.Authors = authorsSelectList;
+                TempData["Error"] = result.Errors;
                 return View(viewModel);
             }
-                
-            await bookService.UpdateAsync(viewModel);
-
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
@@ -83,14 +106,20 @@ namespace LibraryManagementSystem.WebApp.Controllers
         [HttpPost]
         public async Task<JsonResult> SearchBooks(string searchValue)
         {
-            var searchedBooksAsJson = await bookService.GetSearchedBooksAsync(searchValue);
+            var searchedBooksAsJsonResult = await bookService.GetSearchedBooksAsync(searchValue);
 
-            return Json(searchedBooksAsJson);
+            return Json(searchedBooksAsJsonResult.Data);
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            await bookService.DeleteAsync(id);
+            var result = await bookService.DeleteAsync(id);
+
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return RedirectToAction("Index", new { pageNumber = 1 });
+            }
 
             return RedirectToAction("Index", new { pageNumber = 1 });
         }

@@ -10,15 +10,22 @@ namespace LibraryManagementSystem.WebApp.Controllers
         [Route("yazarlar")]
         public async Task<IActionResult> Index()
         {
-            var model =  await authorService.GetAllAsync();
-            return View(model);
+            var result =  await authorService.GetAllAsync();
+            return View(result.Data);
         }
 
         [Route("/yazar/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Detail(int id, string authorTitle)
         {
-            var author = await authorService.GetAuthorWithBooksAsync(id);
-            return View(author);
+            var result = await authorService.GetByIdAsync(id);
+
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return View();
+            }
+
+            return View(result.Data);
         }
 
         [Route("/yazar-ekle")]
@@ -34,33 +41,57 @@ namespace LibraryManagementSystem.WebApp.Controllers
             if (!ModelState.IsValid)
                 return View(authorkCreateModel);
 
-            await authorService.AddAsync(authorkCreateModel);
+            var result = await authorService.AddAsync(authorkCreateModel);
+
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return View();
+            }
+
             return RedirectToAction("Index");
         }
 
         [Route("/yazar-guncelle/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Update(int id)
         {
-            var book = await authorService.GetByIdAsync(id);
+            var result = await authorService.GetByIdAsync(id);
 
-            return View(mapper.Map<UpdateAuthorViewModel>(book));
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return View();
+            }
+
+            return View(mapper.Map<UpdateAuthorViewModel>(result.Data));
         }
 
         [HttpPost]
         [Route("/yazar-guncelle/{id:int}/{authorTitle}")]
-        public IActionResult Update(UpdateAuthorViewModel viewModel)
+        public async Task<IActionResult> UpdateAsync(UpdateAuthorViewModel viewModel)
         {
             if (!ModelState.IsValid)
                 return View(viewModel);
 
-            authorService.UpdateAsync(viewModel);
+            var result = await authorService.UpdateAsync(viewModel);
+
+            if (result.AnyError)
+            {
+                TempData["Error"] = result.Errors;
+                return View();
+            }
 
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            await authorService.DeleteAsync(id);
+            var result = await authorService.GetByIdAsync(id);
+
+            if (result.AnyError)
+                TempData["Error"] = result.Errors;
+            else
+                await authorService.DeleteAsync(id);
 
             return RedirectToAction("Index");
         }

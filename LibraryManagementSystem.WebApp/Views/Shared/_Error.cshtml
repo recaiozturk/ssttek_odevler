@@ -1,0 +1,26 @@
+﻿
+@{
+
+var errors = TempData["Error"] as List<string>;
+
+if (errors == null)
+{
+    var singleError = TempData["Error"] as string[];
+    errors = singleError != null ? new List<string> { singleError.First() } : new List<string>();
+}
+
+    }
+
+    @if (errors != null && errors.Any())
+    {
+    <div class="row">
+        <div class="alert alert-danger">
+            @foreach (var item in errors)
+            {
+                <p>@item</p>
+            }
+        </div>
+    </div>
+
+}
+
