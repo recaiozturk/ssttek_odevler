@@ -5,12 +5,10 @@
 
 @model SignUpViewModel
 
-<partial name="_Error" />
-
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <h1>Kayıt Olun</h1>
-        <form asp-controller="Auth" asp-action="SignUp" method="post" enctype="multipart/form-data">
+        <form asp-controller="Auth" asp-action="SignUp" method="post">
             <div class="mb-3">
                 <label class="form-label">Kullanıcı Adı</label>
                 <input asp-for="UserName" class="form-control">
@@ -28,13 +26,18 @@
                 <input type="password" asp-for="Password" class="form-control">
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <div class="mb-3">
+                <label class="form-label">Şifre Tekrar</label>
+                <input type="password" asp-for="RePassword" class="form-control">
+                <span asp-validation-for="RePassword" class="text-danger"></span>
+            </div>
 
             <div class="mb-3">
                 <label class="form-label">Şehir</label>
                 <input asp-for="City" class="form-control">
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-           
+
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </form>
     </div>

@@ -4,6 +4,7 @@ using LibraryManagementSystem.Repository.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241016145628_SeedDataAdd")]
+    partial class SeedDataAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,17 +126,10 @@ namespace LibraryManagementSystem.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("59ecd787-80ee-4553-893e-38f29801aba5"),
-                            ConcurrencyStamp = "59ecd787-80ee-4553-893e-38f29801aba5",
+                            Id = new Guid("a2b35231-9502-4914-93cf-c949536a7774"),
+                            ConcurrencyStamp = "a2b35231-9502-4914-93cf-c949536a7774",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
-                        },
-                        new
-                        {
-                            Id = new Guid("8f9ad2f2-3469-4486-90fa-98cdc8de0434"),
-                            ConcurrencyStamp = "8f9ad2f2-3469-4486-90fa-98cdc8de0434",
-                            Name = "User",
-                            NormalizedName = "USER"
                         });
                 });
 
@@ -208,17 +204,15 @@ namespace LibraryManagementSystem.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("baf265b0-43a5-4a18-962d-c06d91ec1dfe"),
+                            Id = new Guid("6c294397-7085-4bc3-a51f-395e3e7123ca"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "884f34c1-ac17-4c35-8dcf-9ca2ef8ca041",
+                            ConcurrencyStamp = "e489d921-af7a-44c5-b76e-a45391aa90ab",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "TESLA54",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP88CyOE/ZD/NDeQe2E/55E6SN+Si321sQyKR4wauKUMcuk52NBtlD/HDN74H9exKA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP/WnucS6MczVcftHLiWN+q7nNwny7z8lrhSlIPrUfhN+F1/fNhDAgKWUxFnYJ2Z/Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f4cfb74c-ae68-4012-8ff8-c9214dea155e",
                             TwoFactorEnabled = false,
                             UserName = "tesla54"
                         });
@@ -306,12 +300,25 @@ namespace LibraryManagementSystem.Repository.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.ToTable("IdentityUserRole<string>");
 
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("baf265b0-43a5-4a18-962d-c06d91ec1dfe"),
-                            RoleId = new Guid("59ecd787-80ee-4553-893e-38f29801aba5")
+                            UserId = "6c294397-7085-4bc3-a51f-395e3e7123ca",
+                            RoleId = "a2b35231-9502-4914-93cf-c949536a7774"
                         });
                 });
 

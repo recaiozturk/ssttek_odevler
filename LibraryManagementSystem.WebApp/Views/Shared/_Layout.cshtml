@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html >
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -39,10 +39,23 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Giriş Yap
+                                @{ string title = (User.Identity.IsAuthenticated ? User.Identity.Name : "Giriş Yap");}
+
+                                @title
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                <li><a class="dropdown-item" asp-controller="Auth" asp-action="SignUp">Giriş Yap</a></li>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="SignIn">Giriş Yap</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="SignUp">Kayıt Ol</a></li>
+                                }
+
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Profile">Profile Git</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="SignOut">Çıkış Yap</a></li>
+                                }
+
                             </ul>
                         </li>
 
@@ -64,6 +77,8 @@
     </header>
     <div class="container">
         <main role="main" class="mt-5 pb-3 ">
+
+            <partial name="_Error" />
             @RenderBody()
         </main>
     </div>
