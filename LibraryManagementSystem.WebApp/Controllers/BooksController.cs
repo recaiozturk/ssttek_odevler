@@ -3,6 +3,7 @@ using AutoMapper;
 using LibraryManagementSystem.Service.Authors;
 using LibraryManagementSystem.Service.Books;
 using LibraryManagementSystem.Service.Books.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace LibraryManagementSystem.WebApp.Controllers
 {
@@ -30,6 +31,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return View(result.Data);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [Route("/kitap-ekle")]
         public async Task<IActionResult> Create()
         {
@@ -39,6 +41,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return View();
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [Route("/kitap-ekle")]       
         public async Task<IActionResult> Create(CreateBookViewModel bookCreateModel)
@@ -61,6 +64,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return RedirectToAction("Index", new { pageNumber = 1 });
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [Route("/kitap-guncelle/{id:int}/{bookTitle}")]
         public async Task<IActionResult> Update(int id)
         {
@@ -77,6 +81,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return View(mapper.Map<UpdateBookViewModel>(bookResult.Data));
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [Route("/kitap-guncelle/{id:int}/{bookTitle}")]        
         public async Task<IActionResult> Update(UpdateBookViewModel viewModel)
@@ -111,6 +116,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return Json(searchedBooksAsJsonResult.Data);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await bookService.DeleteAsync(id);

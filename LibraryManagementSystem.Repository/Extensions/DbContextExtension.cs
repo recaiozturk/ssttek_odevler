@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystem.Repository.Shared;
 using LibraryManagementSystem.Repository.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,10 +24,25 @@ namespace LibraryManagementSystem.Repository.Extensions
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 8;
                 options.User.RequireUniqueEmail = true;
             })
-    .AddEntityFrameworkStores<AppDbContext>();
+            .AddEntityFrameworkStores<AppDbContext>();
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                var cookieBuilder = new CookieBuilder
+                {
+                    Name = "SsttekAppCookie",
+                    HttpOnly = true
+                };
+
+                    opt.LoginPath = new PathString("/Auth/Signin");
+                    opt.AccessDeniedPath = new PathString("/Home/AccessDenied");
+                    opt.Cookie = cookieBuilder;
+                    opt.ExpireTimeSpan = TimeSpan.FromDays(60);
+                    opt.SlidingExpiration = true;
+            });
 
             return services;
         }

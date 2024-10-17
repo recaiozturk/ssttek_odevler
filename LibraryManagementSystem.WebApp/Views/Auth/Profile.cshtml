@@ -3,10 +3,13 @@
     ViewData["Title"] = "Profile";
 }
 
+@model UpdateProfileViewModel
+
 <div class="row">
     <div class="col-md-6 offset-md-3">
         <h1>Profil Bilgileri</h1>
-        <a asp-controller="Auth" asp-action="Create" class="btn btn-success mt-3">Profil Güncelle</a>
+        <a asp-controller="Auth" asp-action="ProfileUpdate" class="btn btn-primary mt-3">Profil Bilgilerini Güncelle</a>
+        <a asp-controller="Auth" asp-action="PasswordChange" class="btn btn-success mt-3">Parola Sıfırla</a>
         <table class="table">
             <thead>
                 <tr>
@@ -17,9 +20,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>asd</td>
-                    <td>Otato</td>
-                    <td>Kocaeli</td>
+                    <td>@Model.UserName</td>
+                    <td>@Model.Email</td>
+                    <td>@Model.City</td>
                 </tr>
             </tbody>
         </table>

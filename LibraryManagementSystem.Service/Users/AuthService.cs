@@ -56,32 +56,49 @@ namespace LibraryManagementSystem.Service.Users
             return ServiceResult.Success();
         }
 
-        public async Task<ServiceResult> AddRoleToUser(string roleName, string userId)
+        public async Task<ServiceResult<UpdateProfileViewModel>> GetProfileInfo(string username)
         {
-            var hasUser = await userManager.FindByIdAsync(userId);
+            var currentUser = (await userManager.FindByNameAsync(username))!;
 
-            if (hasUser is null)
+            var userEditViewModel = new UpdateProfileViewModel()
             {
-                return ServiceResult.Fail("Kullanıcı bulunamadı");
-            }
+                UserName = currentUser.UserName!,
+                Email = currentUser.Email!,
+                City = currentUser.City!,
+            };
 
+            return ServiceResult<UpdateProfileViewModel>.Success(userEditViewModel);
+        }
 
-            var hasRole = await roleManager.FindByNameAsync(roleName);
+        public async Task<ServiceResult> UpdateProfile(UpdateProfileViewModel viewModel,string currentUserName)
+        {
+            var currentUser = (await userManager.FindByNameAsync(currentUserName))!;
 
-            if (hasRole is null)
-            {
-                return ServiceResult.Fail("Rol bulunamadı");
-            }
+            currentUser.UserName= viewModel.UserName;
+            currentUser.Email= viewModel.Email;
+            currentUser.City= viewModel.City;
 
+            var updateToUserResult = await userManager.UpdateAsync(currentUser);
 
-            var result = await userManager.AddToRoleAsync(hasUser, roleName);
+            if(!updateToUserResult.Succeeded)
+                return ServiceResult.Fail((List<string>)updateToUserResult.Errors);
 
-            if (!result.Succeeded)
-            {
-                var errors = result.Errors.Select(x => x.Description).ToList();
+            return ServiceResult.Success();
+        }
 
-                return ServiceResult.Fail(errors);
-            }
+        public async Task<ServiceResult> ChangePassword(ChangePasswordViewModel viewModel, string currentUserName)
+        {
+            var currentUser = (await userManager.FindByNameAsync(currentUserName))!;
+
+            var checkOldPassword = await userManager.CheckPasswordAsync(currentUser, viewModel.OldPassword);
+
+            if (!checkOldPassword)
+                return ServiceResult.Fail("Eski şifreniz yanlış");
+
+            var resultChangePassword = await userManager.ChangePasswordAsync(currentUser, viewModel.OldPassword, viewModel.Password);
+
+            if (!resultChangePassword.Succeeded)
+                return ServiceResult.Fail((List<string>)resultChangePassword.Errors);
 
             return ServiceResult.Success();
         }

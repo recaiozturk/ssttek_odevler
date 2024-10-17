@@ -66,7 +66,7 @@
         </nav>
 
 
-        @if (ViewData["Offer"] != null)
+        @if (ViewData["success"] != null)
         {
             <div id="offer-area" class="p-1 bg-info">
                 <h4 class="navbar-brand text-center">@ViewData["Offer"]</h4>
@@ -77,6 +77,17 @@
     </header>
     <div class="container">
         <main role="main" class="mt-5 pb-3 ">
+
+            @if (TempData["success"] != null)
+            {
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="alert alert-success">
+                            <p>@TempData["success"]</p>
+                        </div>
+                    </div>
+                </div>
+            }
 
             <partial name="_Error" />
             @RenderBody()

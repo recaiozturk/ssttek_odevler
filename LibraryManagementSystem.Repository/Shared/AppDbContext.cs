@@ -18,12 +18,8 @@ namespace LibraryManagementSystem.Repository.Shared
             SeedDefaultUserAndRoles(builder);
         }
 
-
         void SeedDefaultUserAndRoles(ModelBuilder builder)
         {
-            //builder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles");
-
-            // IdentityUserRole için composite key (UserId ve RoleId'yi birleştirerek) tanımlayın
             builder.Entity<IdentityUserRole<Guid>>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
 

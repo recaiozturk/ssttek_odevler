@@ -6,8 +6,11 @@
 }
 
 <h1>Yazarlar</h1>
-
+@if (User.IsInRole("SuperAdmin"))
+{
 <a asp-controller="Authors" asp-action="Create" class="btn btn-success mt-3">Yazar Ekle</a>
+}
+
 
 @if (Model.Count > 0)
 {
@@ -24,8 +27,12 @@
                     <td><a class="my-link" asp-controller="Authors" asp-action="Detail" asp-route-id="@author.Id" asp-route-authorTitle="@UrlHelper.ToUrlFriendly(author.Name)">@author.Name</a></td>
                     <td>
                         <div>
-                            <a asp-controller="Authors" asp-action="Update" asp-route-id="@author.Id" asp-route-authorTitle="@UrlHelper.ToUrlFriendly(author.Name)" class="btn btn-outline-warning">Güncelle</a>
-                            <a asp-controller="Authors" asp-action="Delete" asp-route-id="@author.Id" class="btn btn-outline-danger">Sil</a>
+                            @if (User.IsInRole("SuperAdmin"))
+                            {
+                                <a asp-controller="Authors" asp-action="Update" asp-route-id="@author.Id" asp-route-authorTitle="@UrlHelper.ToUrlFriendly(author.Name)" class="btn btn-outline-warning">Güncelle</a>
+                                <a asp-controller="Authors" asp-action="Delete" asp-route-id="@author.Id" class="btn btn-outline-danger">Sil</a>
+                            }
+
                         </div>
                     </td>
                 </tr>

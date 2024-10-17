@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.Service.Authors;
 using LibraryManagementSystem.Service.Authors.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.WebApp.Controllers
@@ -17,7 +18,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
         [Route("/yazar/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Detail(int id, string authorTitle)
         {
-            var result = await authorService.GetByIdAsync(id);
+            var result = await authorService.GetAuthorWithBooksAsync(id);
 
             if (result.AnyError)
             {
@@ -28,12 +29,14 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return View(result.Data);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [Route("/yazar-ekle")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [Route("/yazar-ekle")]
         public async Task<IActionResult> Create(CreateAuthorViewModel authorkCreateModel)
@@ -52,6 +55,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [Route("/yazar-guncelle/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Update(int id)
         {
@@ -66,6 +70,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return View(mapper.Map<UpdateAuthorViewModel>(result.Data));
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         [Route("/yazar-guncelle/{id:int}/{authorTitle}")]
         public async Task<IActionResult> UpdateAsync(UpdateAuthorViewModel viewModel)
@@ -84,6 +89,7 @@ namespace LibraryManagementSystem.WebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await authorService.GetByIdAsync(id);
