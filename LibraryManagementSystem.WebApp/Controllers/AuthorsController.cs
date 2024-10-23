@@ -8,14 +8,12 @@ namespace LibraryManagementSystem.WebApp.Controllers
 {
     public class AuthorsController(IAuthorService authorService, IMapper mapper)  : Controller
     {
-        [Route("yazarlar")]
         public async Task<IActionResult> Index()
         {
             var result =  await authorService.GetAllAsync();
             return View(result.Data);
         }
 
-        [Route("/yazar/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Detail(int id, string authorTitle)
         {
             var result = await authorService.GetAuthorWithBooksAsync(id);
@@ -30,7 +28,6 @@ namespace LibraryManagementSystem.WebApp.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin")]
-        [Route("/yazar-ekle")]
         public IActionResult Create()
         {
             return View();
@@ -38,7 +35,6 @@ namespace LibraryManagementSystem.WebApp.Controllers
 
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
-        [Route("/yazar-ekle")]
         public async Task<IActionResult> Create(CreateAuthorViewModel authorkCreateModel)
         {
             if (!ModelState.IsValid)
@@ -56,7 +52,6 @@ namespace LibraryManagementSystem.WebApp.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin")]
-        [Route("/yazar-guncelle/{id:int}/{authorTitle}")]
         public async Task<IActionResult> Update(int id)
         {
             var result = await authorService.GetByIdAsync(id);
@@ -72,7 +67,6 @@ namespace LibraryManagementSystem.WebApp.Controllers
 
         [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
-        [Route("/yazar-guncelle/{id:int}/{authorTitle}")]
         public async Task<IActionResult> UpdateAsync(UpdateAuthorViewModel viewModel)
         {
             if (!ModelState.IsValid)

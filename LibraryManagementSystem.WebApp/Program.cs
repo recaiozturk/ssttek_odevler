@@ -1,6 +1,8 @@
 using LibraryManagementSystem.Repository.Extensions;
 using LibraryManagementSystem.Service.Extensions;
+using LibraryManagementSystem.WebApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,11 +29,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//
+app.UseMyRoutes();
+
+
 
 app.Run();

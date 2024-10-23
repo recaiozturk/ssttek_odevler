@@ -1,7 +1,7 @@
 function goDetail(id, title) {
 
     var friendlyTitle = title.replace(/\s+/g, '-').toLowerCase();
-    var url = `/kitap/${id}/${friendlyTitle}`;
+    var url = `/books/detail/${id}/${friendlyTitle}`;
     window.location.href = url;
 }
 
