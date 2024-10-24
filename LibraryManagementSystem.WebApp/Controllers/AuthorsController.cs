@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.Service.Authors;
 using LibraryManagementSystem.Service.Authors.ViewModels;
+using LibraryManagementSystem.WebApp.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.WebApp.Controllers
 {
+    [ServiceFilter(typeof(StartFinishLogActionFilter))]
     public class AuthorsController(IAuthorService authorService, IMapper mapper)  : Controller
     {
         public async Task<IActionResult> Index()

@@ -3,18 +3,22 @@ using AutoMapper;
 using LibraryManagementSystem.Service.Authors;
 using LibraryManagementSystem.Service.Books;
 using LibraryManagementSystem.Service.Books.ViewModels;
+using LibraryManagementSystem.WebApp.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace LibraryManagementSystem.WebApp.Controllers
 {
+    [ServiceFilter(typeof(StartFinishLogActionFilter))]
     public class BooksController(IBookService bookService,IAuthorService authorService,IMapper mapper) : Controller
     {
+        [ServiceFilter(typeof(BooksCacheResourceFilter))]
         public async Task<IActionResult> Index(int pageNumber=1, int pageSize=3)
         {
             var result  = await bookService.PrepareListPageAsync(pageNumber, pageSize);
             return View(result.Data);
         }
 
+        [ServiceFilter(typeof(BookDetailResultFilter))]
         public async Task<IActionResult> Detail(int id,string bookTitle)
         {
             var result = await bookService.GetBookWithAuthorAsync(id);

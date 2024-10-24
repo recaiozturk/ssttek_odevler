@@ -1,11 +1,18 @@
 ﻿using LibraryManagementSystem.Service.Users;
 using LibraryManagementSystem.Service.Users.ViewModels;
+using LibraryManagementSystem.WebApp.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.WebApp.Controllers
 {
+    [ServiceFilter(typeof(StartFinishLogActionFilter))]
     public class AuthController(IAuthService authService) : Controller
     {
+        [ServiceFilter(typeof(CustomAuthorizationFilter))]
+        public string AdminPage()
+        {
+            return "Test amacli Admin Sayfasi";
+        }
         public IActionResult SignUp()
         {
             return View();
