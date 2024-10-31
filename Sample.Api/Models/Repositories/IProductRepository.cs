@@ -9,5 +9,7 @@ namespace Sample.Api.Models.Repositories
         void AddProduct(Product product);
         void UpdateProduct(Product product);
         void DeleteProduct(int id);
+
+        bool IsProductAvailable(string productName);
     }
 }

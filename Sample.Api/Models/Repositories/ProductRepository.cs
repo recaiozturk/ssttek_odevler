@@ -48,11 +48,17 @@ namespace Sample.Api.Models.Repositories
 
         public void DeleteProduct(int id)
         {
+            var product =GetProduct(id);
             var productToDelete = Products.FirstOrDefault(x => x.Id == id);
             if (productToDelete != null)
             {
                 Products.Remove(productToDelete);
             }
+        }
+
+        public bool IsProductAvailable(string productName)
+        {
+            return Products.Any(p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

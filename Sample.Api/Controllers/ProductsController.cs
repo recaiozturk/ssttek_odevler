@@ -32,5 +32,22 @@ namespace Sample.Api.Controllers
             return new ObjectResult(result) { StatusCode = (int)result.Status };
 
         }
+
+        //[FromQuery] --> senaryo :product mevcut mu
+        [HttpGet("from-query")]
+        public IActionResult IsProductAvailable([FromQuery] string productName)
+        {
+            var result = productService.IsProductAvailable(productName);
+            return new ObjectResult(result) { StatusCode = (int)result.Status };
+        }
+
+        //[FromRoute] --> senaryo :product silinmesi
+        [HttpDelete("from-route")]
+        public IActionResult DeleteProduct([FromQuery] string productId)
+        {
+            var result = productService.DeleteProduct(int.Parse(productId));
+            return new ObjectResult(result) { StatusCode = (int)result.Status };
+        }
+
     }
 }
