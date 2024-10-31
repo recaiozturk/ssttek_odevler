@@ -18,7 +18,7 @@ namespace Sample.Api.Controllers
 
         //[FromKeyedService] --> senaryo : favori oyunlarımı getir
         [HttpGet("keyed-service")]
-        public IActionResult GetProductFromKeyedService([FromKeyedServices("GameService")] GameService gameService)
+        public IActionResult GetFavGamesFromKeyedService([FromKeyedServices("GameService")] GameService gameService)
         {
             var result = gameService.GetFavoriteGames();
             return new ObjectResult(result){StatusCode = (int)result.Status};
