@@ -1,5 +1,7 @@
 # SSTTEK_Ödevler
 
+7.Hafta ödevi Odev_7 adlı branch üzerinde LibraryManagementSystem.Membership.Api projesinde yapılmıştır(İstenilen endpointler Users  ve Roles controllerlar da tanımlanmistir.Gerekli servis işlemleri varolan LibraryManagementSystem.Service katmanında gerçekleştirilmiştir.).
+
 6.Hafta ödevi Odev_6 adlı branch üzerinde Sample.Api projesinde yapılmıştır(İstenilen endpointler ProductsController içinde tanımlanmıstır).
 
 5.Hafta ödevi Odev_5 adlı branch üzerinde yapılmıştır(istenilen filter ve middleware ler ilgili klasörlerde tanımlanmış ve extensionlar ile ilgili yerlerde kullanılmıştır).
