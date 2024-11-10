@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using LibraryManagementSystem.Service.Books.Validators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 
 
@@ -16,8 +16,10 @@ namespace LibraryManagementSystem.Service.Extensions
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
 
-            services.AddValidatorsFromAssemblyContaining<CreateBookViewModelValidator>();
-            services.AddValidatorsFromAssemblyContaining<UpdateBookViewModelValidator>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            //services.AddValidatorsFromAssemblyContaining<CreateBookViewModelValidator>();
+            //services.AddValidatorsFromAssemblyContaining<UpdateBookViewModelValidator>();
 
             return services;
         }

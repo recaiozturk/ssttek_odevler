@@ -1,6 +1,8 @@
 using LibraryManagementSystem.Membership.Api.Extensions;
 using LibraryManagementSystem.Repository.Extensions;
+using LibraryManagementSystem.Service.Extensions;
 using LibraryManagementSystem.Service.Roles;
+using LibraryManagementSystem.Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddEfCoreExt(builder.Configuration);
+
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddFluentExt(builder.Configuration);
+builder.Services.AddMappingExt(builder.Configuration);
 
 
 var app = builder.Build();
